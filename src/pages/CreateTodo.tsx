@@ -1,9 +1,13 @@
-import React from 'react'
+
 
 function CreateTodo() {
+  
+
   return (
-    <div>CreateTodo</div>
-  )
+    <div>
+      input koycam json db yazcam yarın***
+    </div>
+  );
 }
 
 export default CreateTodo
