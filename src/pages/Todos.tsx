@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import api from "../api/api";
 
 
 interface Todo {
@@ -9,11 +9,11 @@ interface Todo {
 }
 
 function Todos() {
-  const BASE_URL = "http://localhost:3001";
+
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
-    axios.get(BASE_URL + "/todos").then(res => setTodos(res.data));
+    api.get("/todos").then(res => setTodos(res.data));
   }, []);
 
   return (

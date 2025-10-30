@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from "../api/api";
 import { useEffect, useState } from 'react'
 
 
@@ -9,11 +9,11 @@ interface Todo {
 }
 
 function InProgress() {
-  const BASE_URL = "http://localhost:3001";
+ 
   const [inProgress, setInProgress] = useState<Todo[]>([]);
 
   useEffect(() => {
-    axios.get(BASE_URL + "/todos").then(res => setInProgress(res.data));
+    api.get("/todos").then(res => setInProgress(res.data));
   }, []);
 
   return (

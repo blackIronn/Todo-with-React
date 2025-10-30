@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from "../api/api";
 import { useEffect, useState } from 'react'
 
 
@@ -11,11 +11,11 @@ interface Todo {
 
 
 function Closed() {
-  const BASE_URL = "http://localhost:3001";
+
   const [closed, setClosed] = useState<Todo[]>([]);
 
   useEffect(() => {
-    axios.get(BASE_URL + "/todos").then(res => setClosed(res.data));
+    api.get("/todos").then(res => setClosed(res.data));
   }, []);
 
   return (
