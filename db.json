@@ -1,22 +1,12 @@
 {
   "todos": [
     {
-      "id": 1,
-      "title": "React öğren",
-      "status": "todo"
-    },
-    {
-      "id": 5,
-      "title": "React öğrenseneee",
-      "status": "todo"
-    },
-    {
-      "id": 2,
+      "id": "2",
       "title": "In Progress örneği",
       "status": "inProgress"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Kapandı örneği",
       "status": "closed"
     }
