@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from "../api/api";
+import Modal from './Modal';
 
 
 interface Todo {
@@ -10,26 +11,36 @@ interface Todo {
 
 function Todos() {
 
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [selectedTodo, setSelectedTodo] = useState<Todo>();
   const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
     getTodos();
   }, []);
 
-  const getTodos = () => {
-    api.get("/todos").then(res => setTodos(res.data));
+  const getTodos = async () => {
+    await api.get("/todos").then(res => setTodos(res.data));
   }
 
-  const Update = () => {
-
+  const getTodoById = async (id: number) => {
+    const todo = await api.get(`/todos/${id}`);
+    setSelectedTodo(todo.data);
+    return todo.data;
   }
 
-  const ChangeStatus = () => {
+  const Update = async (id: number) => {
+    const todo = await getTodoById(id);
     
+    setIsModal(true);
   }
+
+  // const ChangeStatus = () => {
+    
+  // }
   
   const Remove = async (id: number) => {
-    const remove = await api.delete(`/todos/${id}`);
+    await api.delete(`/todos/${id}`);
     getTodos();
   }
 
@@ -44,13 +55,14 @@ function Todos() {
             </div>
             <div className='flex justify-center gap-5 pl-5'>
               <button 
-                className='py-5 px-5 bg-[#6a0a97] mt-5 mx-auto rounded-lg text-2xl'>
+                className='py-5 px-5 bg-[#138a23] mt-5 mx-auto rounded-lg text-2xl'
+                onClick={() => Update(item.id)}>
                 Update
               </button>
-              <button 
+              {/* <button 
                 className='py-5 px-5 bg-[#138a23] mt-5 mx-auto rounded-lg text-2xl'>
-                Change Status
-              </button>
+                Change
+              </button> */}
               <button 
                 className='py-5 px-5 bg-[#831818] mt-5 mx-auto rounded-lg text-2xl'
                 onClick={() => Remove(item.id)}>
@@ -59,6 +71,10 @@ function Todos() {
             </div>
           </div>
         ))}
+        {isModal && selectedTodo && (
+          <Modal todo={selectedTodo} onClose={() => setIsModal(false)} />
+        )}
+
     </div>
   );
 }
