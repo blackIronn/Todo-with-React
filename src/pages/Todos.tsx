@@ -1,17 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import api from "../api/api";
-import Modal from './Modal';
+import Modal from "./Modal";
 
 
-interface Todo {
-  id: number;
-  title: string;
-  status: string;
-}
+import type { Todo } from "../types";
+
 
 function Todos() {
-
-  const [isModal, setIsModal] = useState<boolean>(false);
+  const [isModal, setIsModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<Todo>();
   const [todos, setTodos] = useState<Todo[]>([]);
 
@@ -20,61 +16,66 @@ function Todos() {
   }, []);
 
   const getTodos = async () => {
-    await api.get("/todos").then(res => setTodos(res.data));
-  }
+    const res = await api.get("/todos");
+    setTodos(res.data);
+  };
 
-  const getTodoById = async (id: number) => {
-    const todo = await api.get(`/todos/${id}`);
-    setSelectedTodo(todo.data);
-    return todo.data;
-  }
+  const getTodoById = async (id: string) => {
+    const res = await api.get(`/todos/${id}`);
+    setSelectedTodo(res.data);
+    return res.data;
+  };
 
-  const Update = async (id: number) => {
-    const todo = await getTodoById(id);
-    
+  const Update = async (id: string) => {
+    await getTodoById(id);
     setIsModal(true);
-  }
+  };
 
-  // const ChangeStatus = () => {
-    
-  // }
-  
-  const Remove = async (id: number) => {
+  const updateTodo = async (id: string, data: Partial<Todo>) => {
+    await api.patch(`/todos/${id}`, data);
+    await getTodos();
+    setIsModal(false);
+  };
+
+  const Remove = async (id: string) => {
     await api.delete(`/todos/${id}`);
     getTodos();
-  }
+  };
 
   return (
-    <div className='flex-col justify-center text-center pt-20'>
+    <div className="p-8 text-center">
       {todos
-        .filter(item => item.status === "todo")
+        .filter((item) => item.status === "todo")
         .map((item) => (
-          <div className='flex justify-center'>
-            <div className=' py-5 px-5 bg-[#181818] mt-5 w-4/5 mx-auto rounded-lg text-2xl'>
-              <p key={item.id}>{item.title}</p>
-            </div>
-            <div className='flex justify-center gap-5 pl-5'>
-              <button 
-                className='py-5 px-5 bg-[#138a23] mt-5 mx-auto rounded-lg text-2xl'
-                onClick={() => Update(item.id)}>
+          <div
+            key={item.id}
+            className="flex justify-between items-center bg-[#181818] text-white rounded-lg p-4 mb-4 w-4/5 mx-auto"
+          >
+            <p className="text-xl">{item.title}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => Update(item.id)}
+                className="bg-green-700 hover:bg-green-800 px-4 py-2 rounded-md"
+              >
                 Update
               </button>
-              {/* <button 
-                className='py-5 px-5 bg-[#138a23] mt-5 mx-auto rounded-lg text-2xl'>
-                Change
-              </button> */}
-              <button 
-                className='py-5 px-5 bg-[#831818] mt-5 mx-auto rounded-lg text-2xl'
-                onClick={() => Remove(item.id)}>
+              <button
+                onClick={() => Remove(item.id)}
+                className="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-md"
+              >
                 Remove
               </button>
             </div>
           </div>
         ))}
-        {isModal && selectedTodo && (
-          <Modal todo={selectedTodo} onClose={() => setIsModal(false)} />
-        )}
 
+      {isModal && selectedTodo && (
+        <Modal
+          todo={selectedTodo}
+          onClose={() => setIsModal(false)}
+          update={updateTodo}
+        />
+      )}
     </div>
   );
 }
