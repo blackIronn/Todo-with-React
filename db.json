@@ -2,8 +2,8 @@
   "todos": [
     {
       "id": "2",
-      "title": "In Progress örneği",
-      "status": "todo"
+      "title": "In Progress örneği111111",
+      "status": "closed"
     },
     {
       "title": "123",
@@ -13,7 +13,7 @@
     {
       "id": "cbc4",
       "title": "React öğreniyorummm içinden geçecem ortalığıııın",
-      "status": "todo"
+      "status": "inProgress"
     },
     {
       "id": "11e6",
@@ -28,6 +28,26 @@
     {
       "id": "a777",
       "title": "asdad",
+      "status": "todo"
+    },
+    {
+      "id": "9f48",
+      "title": "asdasa",
+      "status": "todo"
+    },
+    {
+      "id": "2db4",
+      "title": "asdasd",
+      "status": "todo"
+    },
+    {
+      "id": "2d7a",
+      "title": "asdsada",
+      "status": "todo"
+    },
+    {
+      "id": "6e81",
+      "title": "asdsada",
       "status": "todo"
     }
   ]

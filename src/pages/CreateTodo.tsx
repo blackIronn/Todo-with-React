@@ -5,12 +5,19 @@ function CreateTodo() {
   const [newTodo, setNewTodo] = useState("");
 
   const createTodo = async () => {
-    if (!newTodo.trim()) return;
-    await api.post("/todos", {
-      title: newTodo,
-      status: "todo",
-    });
-    setNewTodo("");
+    try{
+      if (!newTodo.trim()) return;
+      await api.post("/todos", {
+        title: newTodo,
+        status: "todo",
+      });
+    }
+    catch (err){
+      console.log(err);
+    }
+    finally{
+      setNewTodo("");
+    }
   };
 
   return (

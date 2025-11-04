@@ -6,7 +6,7 @@ import type { Todo } from "../types";
 interface ModalProps {
   todo: Todo;
   onClose: () => void;
-  update: (id: number, updatedData: { title: string; status: string }) => void;
+  update: (id: string, updatedData: { title: string; status: Todo["status"] }) => void;
 }
 
 function Modal({ todo, onClose, update }: ModalProps) {
